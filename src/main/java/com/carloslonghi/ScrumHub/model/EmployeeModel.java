@@ -3,6 +3,7 @@ package com.carloslonghi.ScrumHub.model;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
+import java.util.List;
 
 // @Entity do JPA (Java Persistence API) transforma uma classe comum em uma entidade do Banco de Dados
 @Entity
@@ -28,6 +29,10 @@ public class EmployeeModel {
     private LocalDate hireDate;
 
     private int rank;
+
+    // Um "funcionário" poderá estar associado a várias "tarefas"
+    @OneToMany(mappedBy = "employee")
+    private List<TaskModel> tasks;
 
     public EmployeeModel() {
     }
