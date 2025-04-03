@@ -1,5 +1,6 @@
 package com.carloslonghi.ScrumHub.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -38,5 +39,6 @@ public class EmployeeModel {
 
     // Um "funcionário" poderá estar associado a várias "tarefas"
     @OneToMany(mappedBy = "employee")
+    @JsonIgnore // Evita erro de serialização (loop infinino)
     private List<TaskModel> tasks;
 }
