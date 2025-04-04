@@ -25,8 +25,8 @@ public class EmployeeController {
     }
 
     @GetMapping("/{id}")
-    public String getById() {
-        return "Rota para busca de funcionário por id";
+    public EmployeeModel getById(@PathVariable Long id) {
+        return employeeService.getEmployeeById(id);
     }
 
     @PutMapping("/{id}")
