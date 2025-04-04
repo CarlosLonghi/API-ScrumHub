@@ -20,8 +20,8 @@ public class TaskController {
     }
 
     @PostMapping
-    public String create() {
-        return "Rota para criação de uma tarefa";
+    public TaskModel create(@RequestBody TaskModel task) {
+        return taskService.createTask(task);
     }
 
     @GetMapping("/{id}")

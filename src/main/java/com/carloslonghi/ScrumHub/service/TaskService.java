@@ -18,6 +18,10 @@ public class TaskService {
         return taskRepository.findAll();
     }
 
+    public TaskModel createTask(TaskModel task) {
+        return taskRepository.save(task);
+    }
+
     public TaskModel getTaskById(Long id) {
         Optional<TaskModel> task = taskRepository.findById(id);
         return task.orElse(null);
