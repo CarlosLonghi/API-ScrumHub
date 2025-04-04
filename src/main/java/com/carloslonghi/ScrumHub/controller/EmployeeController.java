@@ -35,7 +35,7 @@ public class EmployeeController {
     }
 
     @DeleteMapping("/{id}")
-    public String deleteById() {
-        return "Rota para deleção de funcionário por id";
+    public void deleteById(@PathVariable Long id) {
+        employeeService.deleteEmployeeById(id);
     }
 }

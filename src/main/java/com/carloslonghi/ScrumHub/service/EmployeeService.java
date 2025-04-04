@@ -26,4 +26,8 @@ public class EmployeeService {
         Optional<EmployeeModel> employee = employeeRepository.findById(id);
         return employee.orElse(null);
     }
+
+    public void deleteEmployeeById(Long id) {
+        employeeRepository.deleteById(id);
+    }
 }
