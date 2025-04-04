@@ -18,6 +18,10 @@ public class EmployeeService {
         return employeeRepository.findAll();
     }
 
+    public EmployeeModel createEmployee(EmployeeModel employee) {
+        return employeeRepository.save(employee);
+    }
+
     public EmployeeModel getEmployeeById(Long id) {
         Optional<EmployeeModel> employee = employeeRepository.findById(id);
         return employee.orElse(null);

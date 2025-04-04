@@ -20,8 +20,8 @@ public class EmployeeController {
     }
 
     @PostMapping
-    public String create() {
-        return "Rota para criação de um funcionário";
+    public EmployeeModel create(@RequestBody EmployeeModel employee) {
+        return employeeService.createEmployee(employee);
     }
 
     @GetMapping("/{id}")
