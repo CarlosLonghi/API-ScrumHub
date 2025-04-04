@@ -25,8 +25,8 @@ public class TaskController {
     }
 
     @GetMapping("/{id}")
-    public String getById() {
-        return "Rota para busca de tarefa por id";
+    public TaskModel getById(@PathVariable Long id) {
+        return taskService.getTaskById(id);
     }
 
     @PutMapping("/{id}")
