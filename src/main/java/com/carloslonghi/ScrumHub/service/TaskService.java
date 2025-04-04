@@ -26,4 +26,8 @@ public class TaskService {
         Optional<TaskModel> task = taskRepository.findById(id);
         return task.orElse(null);
     }
+
+    public void deleteTaskById(Long id) {
+        taskRepository.deleteById(id);
+    }
 }

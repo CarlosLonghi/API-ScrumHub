@@ -35,7 +35,7 @@ public class TaskController {
     }
 
     @DeleteMapping("/{id}")
-    public String deleteById() {
-        return "Rota para deleção de tarefa por id";
+    public void deleteById(@PathVariable Long id) {
+        taskService.deleteTaskById(id);
     }
 }
