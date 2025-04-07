@@ -27,6 +27,14 @@ public class EmployeeService {
         return employee.orElse(null);
     }
 
+    public EmployeeModel updateById(Long id, EmployeeModel employee) {
+        if (employeeRepository.existsById(id)) {
+            employee.setId(id);
+            return employeeRepository.save(employee);
+        }
+        return null;
+    }
+
     public void deleteEmployeeById(Long id) {
         employeeRepository.deleteById(id);
     }

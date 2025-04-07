@@ -30,8 +30,8 @@ public class EmployeeController {
     }
 
     @PutMapping("/{id}")
-    public String updateById() {
-        return "Rota para alteração de funcionário por id";
+    public EmployeeModel updateById(@PathVariable Long id, @RequestBody EmployeeModel employee) {
+        return employeeService.updateById(id, employee);
     }
 
     @DeleteMapping("/{id}")
