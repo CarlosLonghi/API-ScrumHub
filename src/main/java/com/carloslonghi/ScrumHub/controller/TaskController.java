@@ -30,8 +30,8 @@ public class TaskController {
     }
 
     @PutMapping("/{id}")
-    public String updateById() {
-        return "Rota para alteração de tarefa por id";
+    public TaskModel updateById(@PathVariable Long id, @RequestBody TaskModel task) {
+        return taskService.updateTaskById(id, task);
     }
 
     @DeleteMapping("/{id}")

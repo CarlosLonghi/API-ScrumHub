@@ -27,6 +27,14 @@ public class TaskService {
         return task.orElse(null);
     }
 
+    public TaskModel updateTaskById(Long id, TaskModel task) {
+        if (taskRepository.existsById(id)) {
+            task.setId(id);
+            return taskRepository.save(task);
+        }
+        return null;
+    }
+
     public void deleteTaskById(Long id) {
         taskRepository.deleteById(id);
     }
