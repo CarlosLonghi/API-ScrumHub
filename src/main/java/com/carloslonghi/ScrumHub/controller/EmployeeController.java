@@ -1,5 +1,6 @@
 package com.carloslonghi.ScrumHub.controller;
 
+import com.carloslonghi.ScrumHub.dto.EmployeeDTO;
 import com.carloslonghi.ScrumHub.model.EmployeeModel;
 import com.carloslonghi.ScrumHub.service.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,22 +16,22 @@ public class EmployeeController {
     private EmployeeService employeeService;
 
     @GetMapping
-    public List<EmployeeModel> getAll() {
+    public List<EmployeeDTO> getAll() {
         return employeeService.getAllEmployees();
     }
 
     @PostMapping
-    public EmployeeModel create(@RequestBody EmployeeModel employee) {
+    public EmployeeDTO create(@RequestBody EmployeeDTO employee) {
         return employeeService.createEmployee(employee);
     }
 
     @GetMapping("/{id}")
-    public EmployeeModel getById(@PathVariable Long id) {
+    public EmployeeDTO getById(@PathVariable Long id) {
         return employeeService.getEmployeeById(id);
     }
 
     @PutMapping("/{id}")
-    public EmployeeModel updateById(@PathVariable Long id, @RequestBody EmployeeModel employee) {
+    public EmployeeDTO updateById(@PathVariable Long id, @RequestBody EmployeeDTO employee) {
         return employeeService.updateById(id, employee);
     }
 
