@@ -29,6 +29,8 @@ public class EmployeeModel {
     @Column(unique = true, nullable = false)
     private String email;
 
+    private String phone;
+
     @Column(nullable = false)
     private String role;
 
