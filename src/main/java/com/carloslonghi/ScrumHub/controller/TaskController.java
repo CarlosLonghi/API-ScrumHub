@@ -1,5 +1,7 @@
 package com.carloslonghi.ScrumHub.controller;
 
+import com.carloslonghi.ScrumHub.dto.TaskDTO;
+import com.carloslonghi.ScrumHub.mapper.TaskMapper;
 import com.carloslonghi.ScrumHub.model.TaskModel;
 import com.carloslonghi.ScrumHub.service.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,22 +17,22 @@ public class TaskController {
     private TaskService taskService;
 
     @GetMapping
-    public List<TaskModel> getAll() {
+    public List<TaskDTO> getAll() {
         return taskService.getAllTasks();
     }
 
     @PostMapping
-    public TaskModel create(@RequestBody TaskModel task) {
+    public TaskDTO create(@RequestBody TaskDTO task) {
         return taskService.createTask(task);
     }
 
     @GetMapping("/{id}")
-    public TaskModel getById(@PathVariable Long id) {
+    public TaskDTO getById(@PathVariable Long id) {
         return taskService.getTaskById(id);
     }
 
     @PutMapping("/{id}")
-    public TaskModel updateById(@PathVariable Long id, @RequestBody TaskModel task) {
+    public TaskDTO updateById(@PathVariable Long id, @RequestBody TaskDTO task) {
         return taskService.updateTaskById(id, task);
     }
 

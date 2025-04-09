@@ -1,5 +1,7 @@
 package com.carloslonghi.ScrumHub.service;
 
+import com.carloslonghi.ScrumHub.dto.TaskDTO;
+import com.carloslonghi.ScrumHub.mapper.TaskMapper;
 import com.carloslonghi.ScrumHub.model.TaskModel;
 import com.carloslonghi.ScrumHub.repository.TaskRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class TaskService {
@@ -14,28 +17,42 @@ public class TaskService {
     @Autowired
     private TaskRepository taskRepository;
 
-    public List<TaskModel> getAllTasks() {
-        return taskRepository.findAll();
+    @Autowired
+    private TaskMapper taskMapper;
+
+    public List<TaskDTO> getAllTasks() {
+        List<TaskModel> tasks = taskRepository.findAll();
+        return tasks.stream()
+                .map(taskMapper::map)
+                .collect(Collectors.toList());
     }
 
-    public TaskModel createTask(TaskModel task) {
-        return taskRepository.save(task);
+    public TaskDTO createTask(TaskDTO taskDTO) {
+        TaskModel task = taskMapper.map(taskDTO);
+        task = taskRepository.save(task);
+        return taskMapper.map(task);
     }
 
-    public TaskModel getTaskById(Long id) {
+    public TaskDTO getTaskById(Long id) {
         Optional<TaskModel> task = taskRepository.findById(id);
-        return task.orElse(null);
+        return task.map(taskMapper::map).orElse(null);
     }
 
-    public TaskModel updateTaskById(Long id, TaskModel task) {
-        if (taskRepository.existsById(id)) {
-            task.setId(id);
-            return taskRepository.save(task);
+    public TaskDTO updateTaskById(Long id, TaskDTO taskDTO) {
+        Optional<TaskModel> taskExist = taskRepository.findById(id);
+        if (taskExist.isPresent()) {
+            TaskModel taskUpdated = taskMapper.map(taskDTO);
+            taskUpdated.setId(id);
+            TaskModel task = taskRepository.save(taskUpdated);
+            return taskMapper.map(task);
         }
         return null;
     }
 
     public void deleteTaskById(Long id) {
-        taskRepository.deleteById(id);
+        Optional<TaskModel> taskExist = taskRepository.findById(id);
+        if (taskExist.isPresent()) {
+            taskRepository.deleteById(id);
+        }
     }
 }
