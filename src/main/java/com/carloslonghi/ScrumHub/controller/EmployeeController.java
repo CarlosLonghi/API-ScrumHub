@@ -1,9 +1,10 @@
 package com.carloslonghi.ScrumHub.controller;
 
 import com.carloslonghi.ScrumHub.dto.EmployeeDTO;
-import com.carloslonghi.ScrumHub.model.EmployeeModel;
 import com.carloslonghi.ScrumHub.service.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -16,27 +17,53 @@ public class EmployeeController {
     private EmployeeService employeeService;
 
     @GetMapping
-    public List<EmployeeDTO> getAll() {
-        return employeeService.getAllEmployees();
+    public ResponseEntity<List<EmployeeDTO>> getAll() {
+        List<EmployeeDTO> employees = employeeService.getAllEmployees();
+        return ResponseEntity.ok(employees);
     }
 
     @PostMapping
-    public EmployeeDTO create(@RequestBody EmployeeDTO employee) {
-        return employeeService.createEmployee(employee);
+    public ResponseEntity<String> create(@RequestBody EmployeeDTO employee) {
+        EmployeeDTO employeeCreated = employeeService.createEmployee(employee);
+        return ResponseEntity
+                .status(HttpStatus.CREATED)
+                .body("Funcionário \"" + employeeCreated.getName() + "\" cadastrado com sucesso");
     }
 
     @GetMapping("/{id}")
-    public EmployeeDTO getById(@PathVariable Long id) {
-        return employeeService.getEmployeeById(id);
+    public ResponseEntity<?> getById(@PathVariable Long id) {
+        EmployeeDTO employeeFound = employeeService.getEmployeeById(id);
+        if (employeeFound != null) {
+            return ResponseEntity.ok(employeeFound);
+        }
+        return ResponseEntity
+                .status(HttpStatus.NOT_FOUND)
+                .body("Não existe funcionário com ID \"" + id + "\"");
     }
 
     @PutMapping("/{id}")
-    public EmployeeDTO updateById(@PathVariable Long id, @RequestBody EmployeeDTO employee) {
-        return employeeService.updateById(id, employee);
+    public ResponseEntity<String> updateById(@PathVariable Long id, @RequestBody EmployeeDTO employee) {
+        EmployeeDTO employeeFound = employeeService.getEmployeeById(id);
+        if (employeeFound != null) {
+            EmployeeDTO employeeUpdated = employeeService.updateById(id, employee);
+            return ResponseEntity
+                    .ok("Funcionário \"" + employeeUpdated.getName() + "\" atualizado com sucesso");
+        }
+        return ResponseEntity
+                .status(HttpStatus.NOT_FOUND)
+                .body("Não existe funcionário com ID \"" + id + "\"");
     }
 
     @DeleteMapping("/{id}")
-    public void deleteById(@PathVariable Long id) {
-        employeeService.deleteEmployeeById(id);
+    public ResponseEntity<String> deleteById(@PathVariable Long id) {
+        EmployeeDTO employeeFound = employeeService.getEmployeeById(id);
+        if (employeeFound != null) {
+            employeeService.deleteEmployeeById(id);
+            return ResponseEntity
+                    .ok("Funcionário \"" + employeeFound.getName() + "\" deletado com sucesso");
+        }
+        return ResponseEntity
+                .status(HttpStatus.NOT_FOUND)
+                .body("Não existe funcionário com ID \"" + id + "\"");
     }
 }
