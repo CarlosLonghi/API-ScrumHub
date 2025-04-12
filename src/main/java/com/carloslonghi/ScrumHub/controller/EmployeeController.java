@@ -1,5 +1,6 @@
 package com.carloslonghi.ScrumHub.controller;
 
+import com.carloslonghi.ScrumHub.docs.EmployeeControllerDocs;
 import com.carloslonghi.ScrumHub.dto.EmployeeDTO;
 import com.carloslonghi.ScrumHub.service.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,17 +12,19 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/employee")
-public class EmployeeController {
+public class EmployeeController implements EmployeeControllerDocs {
 
     @Autowired
     private EmployeeService employeeService;
 
+    @Override
     @GetMapping
     public ResponseEntity<List<EmployeeDTO>> getAll() {
         List<EmployeeDTO> employees = employeeService.getAllEmployees();
         return ResponseEntity.ok(employees);
     }
 
+    @Override
     @PostMapping
     public ResponseEntity<String> create(@RequestBody EmployeeDTO employee) {
         EmployeeDTO employeeCreated = employeeService.createEmployee(employee);
@@ -30,6 +33,7 @@ public class EmployeeController {
                 .body("Funcionário \"" + employeeCreated.getName() + "\" cadastrado com sucesso");
     }
 
+    @Override
     @GetMapping("/{id}")
     public ResponseEntity<?> getById(@PathVariable Long id) {
         EmployeeDTO employeeFound = employeeService.getEmployeeById(id);
@@ -41,6 +45,7 @@ public class EmployeeController {
                 .body("Não existe funcionário com ID \"" + id + "\"");
     }
 
+    @Override
     @PutMapping("/{id}")
     public ResponseEntity<String> updateById(@PathVariable Long id, @RequestBody EmployeeDTO employee) {
         EmployeeDTO employeeFound = employeeService.getEmployeeById(id);
@@ -54,6 +59,7 @@ public class EmployeeController {
                 .body("Não existe funcionário com ID \"" + id + "\"");
     }
 
+    @Override
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteById(@PathVariable Long id) {
         EmployeeDTO employeeFound = employeeService.getEmployeeById(id);
