@@ -49,7 +49,8 @@ public class TaskController {
             return ResponseEntity
                     .ok("Tarefa \"" + taskUpdated.getName() + "\" atualizada com sucesso");
         }
-        return ResponseEntity.ok("Não existe tarefa com ID \"" + id + "\"");
+        return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                .body("Não existe tarefa com ID \"" + id + "\"");
     }
 
     @DeleteMapping("/{id}")
